@@ -27,6 +27,7 @@ const styles = css`
   }
 
   body {
+    color: ${theme.color.black}
     font-family: "Sadadream";
     margin: 0;
     position: relative;
@@ -38,8 +39,10 @@ const styles = css`
     }
   }
 
-  p:last-child {
-    margin-bottom: 0;
+  p {
+    font-size: 1rem;
+    line-height: 1.3;
+    margin: 1rem 0 0;
   }
 
   a,
@@ -55,14 +58,7 @@ const styles = css`
   a:focus {
     outline: none;
   }
-
-  ul {
-    margin: 0;
-    padding: 0;
-
-    list-style: outside none none;
-  }
-
+  
   input:focus::-webkit-input-placeholder,
   textarea:focus::-webkit-input-placeholder {
     color: transparent !important;

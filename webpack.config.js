@@ -1,35 +1,41 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const HtmlwebPackPlugin = require('html-webpack-plugin');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require('copy-webpack-plugin');
 const ErrorOverlayPlugin = require('error-overlay-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-const dotenv = require('dotenv');
-
 module.exports = (env, options) => {
+	const mode = options.mode || 'development';
+	const DEV = mode === 'development';
 
-	const { DEV } = env;
-
-	dotenv.config(DEV ? {
-		path: "./env/dev.env"
-	} : {
-		path: "./env/.env"
-	});
+	switch (mode) {
+		case 'development':
+			require('dotenv').config({path: "./env/dev.env"});
+			break;
+		case 'production':
+			require('dotenv').config({path: "./env/.env"});
+			break;
+	};
 
 	const copyMap = {
 		'axios': DEV ? './node_modules/axios/dist/axios.js' : './node_modules/axios/dist/axios.min.js'
 	};
 
 	const plugins = [
-		new HtmlwebPackPlugin({
+		new webpack.DefinePlugin({
+			'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+			'process.env.API_URL': JSON.stringify(process.env.API_URL),
+		}),
+
+		new HtmlWebPackPlugin({
 			template: './public/index.html',
 			templateParameters: {
 				env: DEV ? '(개발)' : '',
@@ -48,12 +54,7 @@ module.exports = (env, options) => {
 
 		new WebpackManifestPlugin({
 			filename: 'manifest.json',
-			basePath: "./dist"
-		}),
-
-		new webpack.DefinePlugin({
-			'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-			'process.env.API_URL': JSON.stringify(process.env.API_URL),
+			basePath: "./build"
 		}),
 
 		new CopyPlugin({
@@ -66,24 +67,28 @@ module.exports = (env, options) => {
 		}),
 	];
 
-	if(DEV) {
-		plugins.push(
-			new ForkTsCheckerWebpackPlugin(),
-			new ErrorOverlayPlugin(),
-		)
-	} else {
-		plugins.push(
-			new CleanWebpackPlugin(),
-			new MiniCssExtractPlugin({
-				filename: 'css/[name].[contenthash].css'
-			}),
-		)
-	};
+
+	switch (mode) {
+		case "development":
+			plugins.push(
+				new ForkTsCheckerWebpackPlugin(),
+				new ErrorOverlayPlugin(),
+			);
+			break;
+		case "production":
+			plugins.push(
+				new CleanWebpackPlugin(),
+				new MiniCssExtractPlugin({
+					filename: 'css/[name].[contenthash].css'
+				}),
+			);
+			break;
+	}
 
 	return {
-		mode: DEV ? "development" : "production",
+		mode: mode,
 
-		devtool: DEV ? "inline-source-map" : "cheap-module-source-map",
+		devtool: DEV ? "inline-source-map" : "source-map",
 
 		resolve: {
 			modules: [
@@ -94,7 +99,7 @@ module.exports = (env, options) => {
 		},
 
 		devServer: {
-			contentBase: "./dist",
+			contentBase: "./build",
 			historyApiFallback: true,
 			port: 4000,
 		},
@@ -104,11 +109,11 @@ module.exports = (env, options) => {
 		},
 
 		output: {
-			filename: DEV ? "js/[name].[hash].bundle.js" : 'js/[name].[chunkhash].bundle.js',
+			filename: DEV ? "js/[name].[fullhash].bundle.js" : 'js/[name].[chunkhash].bundle.js',
 
 			chunkFilename: 'js/[name].chunk.js', //dynamic import
 
-			path: path.resolve(__dirname, './dist'),
+			path: path.resolve(__dirname, './build'),
 
 			publicPath: "/",
 		},
@@ -168,7 +173,6 @@ module.exports = (env, options) => {
 			],
 		},
 		plugins,
-
 		optimization: {
 			splitChunks: {
 				name: "vendors",
@@ -179,13 +183,14 @@ module.exports = (env, options) => {
 			}, // runtime
 
 			minimizer: [
-				new OptimizeCSSAssetsPlugin({}),
+				// new OptimizeCSSAssetsPlugin({}),
 
-				new UglifyJsPlugin({
-					cache: true,
-					parallel: true,
-					sourceMap: true
-				}),
+				new TerserPlugin(),
+				// new UglifyJsPlugin({
+				// 	cache: true,
+				// 	parallel: true,
+				// 	sourceMap: true
+				// }),
 			]
 		},
 

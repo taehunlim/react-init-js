@@ -1,0 +1,12 @@
+{
+  "./buildmain.js": "/js/main.04cd69db4cdcfd31d913.bundle.js",
+  "./buildruntime.js": "/js/runtime.1b937ec59e84d9ca7061.bundle.js",
+  "./buildHome.js": "/js/Home.chunk.js",
+  "./buildvendors.js": "/js/vendors.d002a1b0b1cd91599cc2.bundle.js",
+  "./buildjs/axios.min.js": "/js/axios.min.js",
+  "./buildindex.html": "/index.html",
+  "./buildmain.bundle.js.map": "/js/main.04cd69db4cdcfd31d913.bundle.js.map",
+  "./buildruntime.bundle.js.map": "/js/runtime.1b937ec59e84d9ca7061.bundle.js.map",
+  "./buildHome.chunk.js.map": "/js/Home.chunk.js.map",
+  "./buildvendors.bundle.js.map": "/js/vendors.d002a1b0b1cd91599cc2.bundle.js.map"
+}
