@@ -1,0 +1,12 @@
+{
+  "./distmain.js": "/js/main.9fc2447c28ef0ee3ee3e.bundle.js",
+  "./distruntime.js": "/js/runtime.310b65e21bea8be8c10c.bundle.js",
+  "./distHome.js": "/js/Home.chunk.js",
+  "./distvendors.js": "/js/vendors.f3f3baa68ff1aa8ea853.bundle.js",
+  "./distjs/axios.min.js": "/js/axios.min.js",
+  "./distindex.html": "/index.html",
+  "./distmain.bundle.js.map": "/js/main.9fc2447c28ef0ee3ee3e.bundle.js.map",
+  "./distruntime.bundle.js.map": "/js/runtime.310b65e21bea8be8c10c.bundle.js.map",
+  "./distHome.chunk.js.map": "/js/Home.chunk.js.map",
+  "./distvendors.bundle.js.map": "/js/vendors.f3f3baa68ff1aa8ea853.bundle.js.map"
+}
