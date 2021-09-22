@@ -60,7 +60,7 @@ Input.propTypes = {
 
 Input.defaultProps = {
     type: 'text',
-    height: 40,
+    height: 46,
 };
 
 

@@ -14,7 +14,7 @@ const fontSize = ({width, height}) => {
 
 const Wrapper = styled.span`
   display: inline-block;
-  font-size: ${fontSize};
+  font-size: ${fontSize} !important;
 
   width: 1em;
   height: 1em;
