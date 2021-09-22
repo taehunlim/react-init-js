@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import styled from "@emotion/styled";
 import css from "@emotion/css";
 
-const colorList = "primary" || "secondary"
+const colorList = "primary" || "secondary";
 const Button = ({type, ...props}) => {
     const { to, href } = props;
 
@@ -77,7 +77,7 @@ Button.propTypes = {
     type: PropTypes.string,
     to: PropTypes.string,
     href: PropTypes.string,
-    primary: PropTypes.string,
+    primary: PropTypes.bool,
 };
 
 Button.defaultProps = {

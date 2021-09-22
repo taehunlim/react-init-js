@@ -23,9 +23,9 @@ const Wrapper = styled.span`
 
   svg {
     width: 100%;
-    //height: 100%;
-    //fill: currentcolor;
-    //stroke: currentcolor;
+    height: 100%;
+    fill: currentcolor;
+  
   }
 `;
 
